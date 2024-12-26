@@ -11,42 +11,51 @@ public class Quiz02 {
 		 * 이름, 주소, 이메일 을 입력 받고 출력하세요
 		 * BufferedReader 와 Scanner 를 이용하세요
 		 */
-		
-		BufferedReader in =
-				new BufferedReader
-				(new InputStreamReader(System.in));
-		
-		System.out.print("이름 입력 : ");
-		String name1 = in.readLine();
-		
-		System.out.println("이름 : " + name1);
-		
-		System.out.print("주소 입력 : ");
-		String address1 = in.readLine();
-		
-		System.out.println("주소 : " + address1);
-		
-		System.out.print("이메일 입력 : ");
-		String email1 = in.readLine();
-		
-		System.out.println("이메일 : " + email1);
+//		BufferedReader br = 
+//				new BufferedReader
+//				(new InputStreamReader(System.in));
+//		
+//		System.out.print("이름 입력 : ");
+//		String name = br.readLine();
+//		
+//		System.out.print("주소 입력 : ");
+//		String address = br.readLine();
+//		
+//		System.out.print("이메일 입력 : ");
+//		String email = br.readLine();
+//		
+//		
+//		System.out.println(name + "님의 주소는 " + 
+//		address + "이고, 이메일은 " + email + " 입니다.");
 		
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("이름 입력 : ");
-		// Scanner.next() : 문자열 입력
-		String name2 = sc.next();
+		String name1 = sc.nextLine();
 		
 		System.out.print("주소 입력 : ");
-		// Scanner.nextDouble() : 실수 입력
-		String address2 = sc.next();
+		String address1 = sc.nextLine();
 		
 		System.out.print("이메일 입력 : ");
-		// Scanner.nextInt() : 정수 입력
-		String email2 = sc.next();
+		String email1 = sc.nextLine();
 		
-		System.out.println("이름 : " + name2);
-		System.out.println("주소 : " + address2);
-		System.out.println("이메일 : " + email2);
+		System.out.println("이름 : " + name1);
+		System.out.println("주소 : " + address1);
+		System.out.println("이메일 : " + email1);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
