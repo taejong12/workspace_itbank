@@ -22,7 +22,8 @@ public class Quiz01 {
 			System.out.print("국어 점수 입력 : "); // 출력
 			kor = sc.nextInt(); // 국어 점수 입력 
 			if (kor < 0 || kor > 100) {
-				System.out.println("0 ~ 100 점 사이로 다시 입력 하세요.");
+				System.out.println("0 ~ 100 점 사이로 "
+						+ "다시 입력 하세요.");
 			}
 		} while(kor < 0 || kor > 100);
 		
@@ -30,7 +31,8 @@ public class Quiz01 {
 			System.out.print("영어 점수 입력 : "); // 출력
 			eng = sc.nextInt(); // 영어 점수 입력
 			if (eng < 0 || eng > 100) {
-				System.out.println("0 ~ 100 점 사이로 다시 입력 하세요.");
+				System.out.println("0 ~ 100 점 사이로 "
+						+ "다시 입력 하세요.");
 			}
 		} while(eng < 0 || eng > 100);
 		
@@ -38,7 +40,8 @@ public class Quiz01 {
 			System.out.print("수학 점수 입력 : "); // 출력
 			math = sc.nextInt(); // 수학 점수 입력
 			if (math < 0 || math > 100) {
-				System.out.println("0 ~ 100 점 사이로 다시 입력 하세요.");
+				System.out.println("0 ~ 100 점 사이로 "
+						+ "다시 입력 하세요.");
 			}
 		} while(math < 0 || math > 100);
 		
