@@ -13,35 +13,31 @@ public class Quiz03 {
 	 * StudentService 클래스 
 	 * - StudentChild에 대한 입/출력을 구현해 보세요.
 	 */
-	
 	public static void main(String[] args) {
-	
-		Scanner sc = new Scanner(System.in);
-		
 		StudentService ss = new StudentService();
 		
-		
 		while(true) {
-			
-			ss.menu();
-			int menu = sc.nextInt();
+			int menu = ss.menu();
 			switch(menu) {
 			case 1:
-				
+				ss.input();
 				break;
 			case 2:
-				
+				ss.output();
 				break;
-			case 3:
-				
+			case 0:
+				System.out.println("프로그램 종료");
 				return;
-				default:
-					System.out.println("없는 번호");
+			default:
+				System.out.println("선택된 메뉴 번호가 없습니다.");
 			}
-	
 		}
-		
 	}
-	
-	
 }
+
+
+
+
+
+
+
