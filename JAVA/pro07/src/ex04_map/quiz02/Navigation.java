@@ -1,31 +1,35 @@
 package ex04_map.quiz02;
 
 public class Navigation {
-
-	String name;
-	String address;
-	int count;
+	private String desName;
+	private String desAddress;
+	private int visit;
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
+	public Navigation() {
+		// TODO Auto-generated constructor stub
+		visit = 0;
 	}
 	
+	public Navigation(int visit) {
+		this.visit = visit;
+	}
 	
-	
-	
+	public String getDesName() {
+		return desName;
+	}
+	public void setDesName(String desName) {
+		this.desName = desName;
+	}
+	public String getDesAddress() {
+		return desAddress;
+	}
+	public void setDesAddress(String desAddress) {
+		this.desAddress = desAddress;
+	}
+	public int getVisit() {
+		return visit;
+	}
+	public void setVisit() {
+		this.visit += 1;
+	}
 }

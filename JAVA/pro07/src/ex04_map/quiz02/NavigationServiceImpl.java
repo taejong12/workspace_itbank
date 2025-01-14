@@ -7,285 +7,194 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class NavigationServiceImpl implements NavigationService{
-
-	Scanner sc = new Scanner(System.in);
+public class NavigationServiceImpl 
+		implements NavigationService{
+	Map<String, Navigation> destination;	
+	Scanner sc; 
+	List<String> visit;
 	
-	//목적지 등록
-	Map<String, Navigation> naviList = new HashMap<String, Navigation>();
-	
-	//최근 목적지
-	List<Navigation> recentNavi = new ArrayList<Navigation>();
-	
-	@Override
-	public void main() {
-		while(true) {
-			menu();
-			
-			int menu = sc.nextInt();
-
-			switch(menu) {
-				case 1:
-					input();
-					break;
-				case 2:
-					output();
-					break;
-				case 3:
-					modify();
-					break;
-				case 4:
-					delete();
-					break;
-				case 5:
-					clean();
-					break;
-				case 6:
-					recentNavi();
-					break;
-				case 7:
-					System.out.println("프로그램 종료 완료");
-					return;
-				default:
-					System.out.println("없는 번호");
-			}
-			
-		}
-		
+	public NavigationServiceImpl() {
+		// TODO Auto-generated constructor stub
+		destination = new HashMap<String, Navigation>();
+		sc = new Scanner(System.in);
+		visit = new ArrayList<String>();
 	}
 	
 	@Override
-	public void menu() {
-		System.out.println("1.목적지 등록");
-		System.out.println("2.목적지 선택");
-		System.out.println("3.목적지 수정");
-		System.out.println("4.목적지 삭제");
-		System.out.println("5.네비게이션 초기화");
-		System.out.println("6.최근 목적지 5개");
-		System.out.println("7.프로그램 종료");
-		System.out.println("선택: ");
-
+	public int menu() {
+		// TODO Auto-generated method stub
+		System.out.println("1. 목적지 등록");
+		System.out.println("2. 목적지 선택");
+		System.out.println("3. 목적지 수정");
+		System.out.println("4. 목적지 삭제");
+		System.out.println("5. 네비게이션 초기화");
+		System.out.println("6. 최근목적지"); 
+		System.out.println("0. 프로그램 종료");
+		System.out.print("메뉴 선택 : ");
+		return sc.nextInt();
 	}
-	
 
+	public String desInput(String sub) {
+		System.out.print("목적지 "+ sub + " 입력 : ");
+		return sc.next();
+	}
+
+	
 	@Override
 	public void input() {
-	
-		Set<String> key = naviList.keySet();
-
-		Navigation n = new Navigation();
+		// TODO Auto-generated method stub
+		Navigation nav = new Navigation();
+		nav.setDesName(desInput("이름"));
 		
-		System.out.println("목적지 이름 입력: ");
-		n.setName(sc.next());
+		if(destination.get(nav.getDesName()) != null) {
+			System.out.println("같은 이름의 목적지가 존재합니다. "
+					+ "다시 등록하세요.");
+			return;
+		} 
+		nav.setDesAddress(desInput("주소"));
 		
-		if(key.contains(n.getName())) {
-			System.out.println("이미 존재하는 목적지 이름입니다.");
-			
-		}else {
-			System.out.println("목적지 주소 입력: ");
-			n.setAddress(sc.next());
-			
-			naviList.put(n.getName(), n);
-			
-			recentNavi.add(n);
-			
-		}
-		
-		
+		destination.put(nav.getDesName(), nav);
 	}
 
-	@Override
-	public void output() {
+	public void selectNum(List<String> desList) {
+		System.out.print("목적지 번호 선택 : ");
+		int select = sc.nextInt();
 		
-		if(naviList.isEmpty()) {
-			System.out.println("등록된 목적지가 없습니다.");
-		}else {
-			
-			Set<String> key = naviList.keySet();
-			
-			
-			for(String k:key) {
-				Navigation n = new Navigation();
-				n = naviList.get(k);
-				System.out.println("목적지: "+n.getName()+", 조회 횟수: "+n.getCount());
-				
-			}
-			
-			System.out.println("목적지 입력: ");
-			String ch = sc.next();
-			
-			if(key.contains(ch)) {
-				Navigation n = new Navigation();
-				n = naviList.get(ch);
-				
-				int count = n.getCount();
-				String address = n.getAddress();
-				count++;
-
-				n.setCount(count);
-				n.setName(ch);
-				n.setAddress(address);
+		Navigation nav = 
+			destination.get(desList.get(select-1));
+		System.out.println("#### " + nav.getDesName() + " ####");
+		System.out.println("주소 : " + nav.getDesAddress());
+		nav.setVisit();
+		visit.add(nav.getDesName());
+	}
 	
-				naviList.remove(ch);
-				
-				naviList.put(ch, n);
-				
-				System.out.println("선택완료");
-				
-			}else {
-				
-				System.out.println("없는 목적지입니다.");
-			}
+	@Override
+	public void select() {
+		// TODO Auto-generated method stub
+		while(true) {
+			System.out.println("1. 목적지 검색");
+			System.out.println("2. 모든 목적지 검색");
+			System.out.println("0. 메인 메뉴로 이동");
+			System.out.print("메뉴 선택 : ");
+			int menu = sc.nextInt();
 			
+			List<String> desList = new ArrayList<String>();
+			
+			switch(menu) {
+			case 1:
+				String desName = desInput("이름");
+				
+				Set<String> desKey = destination.keySet();
+				int cnt = 1;
+				
+				for(String k : desKey) {
+					if(k.contains(desName)) {
+						System.out.println(cnt + ". " + k);
+						desList.add(k);
+						cnt++;
+					}
+				}
+				
+				if(desList.isEmpty()) {
+					System.out.println("검색된 목적지 이름이 없습니다.");
+				} else {
+					selectNum(desList);
+				}
+				break;
+			case 2:
+				if(destination.isEmpty()) {
+					System.out.println("출력할 목적지 이름이 없습니다.");
+				} else {
+					//Set<String> key = destination.keySet();
+					int i = 1;
+					for(String k : destination.keySet()) {
+						System.out.println(i + ". " + k);
+						desList.add(k);
+						i++;
+					}
+					selectNum(desList);
+				}
+				break;
+			case 0:
+				System.out.println("메인 메뉴로 이동합니다.");
+				return;
+			default:
+				System.out.println("선택된 메뉴 번호가 없습니다.");
+			}
 		}
-		
-
-		
 	}
 
 	@Override
 	public void modify() {
+		// TODO Auto-generated method stub
+		String desName = desInput("이름");
 		
-		if(naviList.isEmpty()) {
-			System.out.println("등록된 목적지가 없습니다.");
-		}else {
-			
-			Set<String> key = naviList.keySet();
-			
-			Navigation n = new Navigation();
-			
-			for(String k:key) {
-				n = naviList.get(k);
-				System.out.println("목적지: "+n.getName());
-			}
-			
-			System.out.println("수정할 목적지 입력: ");
-			String name = sc.next();
-			
-			if(key.contains(name)) {
-				
-				n = naviList.get(name);
-				
-				int count = n.getCount();
-				
-				n.setCount(count);
-				
-				naviList.remove(name);
-				
-				System.out.println("#### 수정 작성 ####");
-				System.out.println("목적지 입력: ");
-				String navi = sc.next();
-				System.out.println("주소 입력: ");
-				String address = sc.next();
-				
-				n.setName(navi);
-				n.setAddress(address);
-				
-				naviList.put(navi, n);
-				
-				for(int i=0;i<recentNavi.size();i++) {
-					if(recentNavi.get(i).getName().equals(name)) {
-						recentNavi.set(i, n);
-						System.out.println("수정한 이름: "+recentNavi.get(i).getName());
-						System.out.println("수정한 주소: "+recentNavi.get(i).getAddress());
-						System.out.println("횟수: "+recentNavi.get(i).getCount());
-						
-						
-					}
-				}
-				
-				System.out.println("수정완료");
-				
-			}else {
-				System.out.println("없는 목적지입니다.");
-			}
+		Navigation nav = destination.get(desName);
+		
+		if(nav == null) {
+			System.out.println("검색한 목적지 이름이 없습니다.");
+		} else {
+			Navigation chgNav = new Navigation(nav.getVisit());
+			chgNav.setDesName(desInput("이름"));
+			chgNav.setDesAddress(desInput("주소"));
+			destination.remove(nav.getDesName());
+			destination.put(chgNav.getDesName(), chgNav);
+			System.out.println(chgNav.getDesName() + "이 수정 되었습니다.");
 		}
-		
-		
 	}
 
 	@Override
 	public void delete() {
+		// TODO Auto-generated method stub
+		String desName = desInput("이름");
 		
-		if(naviList.isEmpty()) {
-			System.out.println("등록된 목적지가 없습니다.");
-		}else {
+		Navigation nav = destination.get(desName);
+		
+		if(nav == null) {
+			System.out.println("검색한 목적지 이름이 없습니다.");
+		} else {
+			System.out.println("목적지 주소 : " + nav.getDesAddress());
 			
-			Set<String> key = naviList.keySet();
+			System.out.print("삭제를 하시겠습니까? (y/n) ");
+			String check = sc.next();
 			
-			Navigation n = new Navigation();
-			
-			for(String k:key) {
-				n = naviList.get(k);
-				System.out.println("목적지: "+n.getName());
-			}
-			
-			System.out.println("삭제할 목적지 입력: ");
-			String name = sc.next();
-			
-			
-			if(key.contains(name)) {
-				naviList.remove(name);
-				
-				for(int i=0;i<recentNavi.size();i++) {
-					
-					if(recentNavi.get(i).getName().equals(name)) {
-						recentNavi.remove(i);
-					}
-					
-				}
-				System.out.println("삭제완료");
-				
-			}else {
-				System.out.println("없는 목적지입니다.");
+			if(check.equals("y") || check.equals("Y")){
+				System.out.println(nav.getDesName() + "을 삭제했습니다.");
+				destination.remove(desName);
+			} else {
+				System.out.println("삭제가 취소되었습니다.");
 			}
 		}
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		System.out.print("초기화를 진행하시겠습니까 ? (y/n) ");
+		String check =  sc.next();
 		
+		if(check.equals("y") || check.equals("Y")) {
+			System.out.println("초기화를 진행합니다.");
+			destination.clear();
+			visit.clear();
+		} else {
+			System.out.println("초기화를 취소합니다.");
+		}
 		
 	}
 
 	@Override
-	public void recentNavi() {
+	public void lastVisit() {
+		// TODO Auto-generated method stub
+		int i = visit.size() - 6;
 		
-		if(naviList.isEmpty()) {
-			System.out.println("등록된 목적지가 없습니다.");
-		}else {
-			
-			
-			int j = recentNavi.size() - 1;
-			
-			for(int i=0;i<recentNavi.size();i++) {
-				if(i>=5) {
-					break;
-				}
-				System.out.println((i+1)+"번: "+recentNavi.get(j).getName());
-				j--;
-			}
+		if(i < 0) {
+			i = 0;
 		}
 		
-		
-	}
-
-	@Override
-	public void clean() {
-		
-		if(naviList.isEmpty()) {
-			System.out.println("등록된 목적지가 없습니다.");
-		}else {
-			
-			naviList.clear();
-			recentNavi.clear();
-			
-			System.out.println("초기화 완료");
+		for(int cnt=visit.size()-1;cnt>i;cnt--) {
+			System.out.println(visit.get(cnt));
 		}
-		
-		
 	}
-
-
-
-
-
 	
-
 }
