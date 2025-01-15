@@ -1,11 +1,12 @@
 package ex05_random;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Quiz03 {
 	public static void main(String[] args) {
-		
 		/**
 		 * Up & Down 게임
 		 * - 1 ~ 100 사이의 값 중 하나를 컴퓨터가 지정
@@ -18,58 +19,41 @@ public class Quiz03 {
 		 * -- 5번의 게임을 진행 후 평균 맞춘 입력횟수를 출력
 		 * -- 컴퓨터가 가진 수를 자동으로 맞추는 소스 구현  
 		 */
-		
 		Random rand = new Random();
+		Scanner sc = new Scanner(System.in);
+		int sum =0;
 		
-		int round = 1;
-		
-		int sum=0;
-		
-		while(true) {
+		for(int j=0;j<5;j++) {
+			int computer = rand.nextInt(100) + 1;
+			int user = 0;
 			
-			if(round>5) {
-				double avg = sum/5.0;
-				System.out.println("평균 입력 횟수: "+avg);
-				return;
-			}
-			
-			int com = rand.nextInt(100)+1;
-			
-			int count =0;
-			
-			Scanner sc = new Scanner(System.in);
-			
-			while(true) {
+			System.out.println("### Up & Down ###");
+			for(int i=0;i<10;i++) {
+				System.out.print((i+1) + "번째 입력 : ");
+				user = sc.nextInt();
 				
-				if(count > 9) {
-					System.out.println("게임아웃");
-					sum += count;
-					break;
-					
-				}
-				
-				System.out.println("숫자 입력: ");
-				int user = sc.nextInt();
-				
-				if(user>com) {
-					System.out.println("DOWN");
-				}else if(user<com) {
-					System.out.println("UP");
-				}else if(user==com) {
+				if(user < computer) {
+					System.out.println("Up");
+				} else if (user > computer) {
+					System.out.println("Down");
+				} else {
 					System.out.println("게임 승리");
-					sum += count;
+					sum += (i+1);
 					break;
 				}
-				
-				count++;
-				
-				
 			}
 			
-			round++;
 		}
-		
-		
-		
+		System.out.println("평균 맞춘 횟수 : " + (sum / 5.0));
 	}
 }
+
+
+
+
+
+
+
+
+
+
