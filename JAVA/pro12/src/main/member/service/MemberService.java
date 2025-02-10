@@ -2,7 +2,6 @@ package main.member.service;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +10,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import main.common.service.CommonService;
 import main.member.controller.Controller;
@@ -41,7 +39,7 @@ public class MemberService {
 		}	
 		
 		Controller ctrl = loader.getController();
-		
+		ctrl.setRoot(member);
 		ComboBox<String> cmbAge =
 			(ComboBox<String>)member.lookup("#cmbAge");
 		
@@ -55,10 +53,8 @@ public class MemberService {
 		memberForm.show();
 	}
 
-	public void joinMember(ActionEvent event) {
+	public void joinMember(Parent memberForm) {
 		// TODO Auto-generated method stub
-		Parent memberForm = 
-				(Parent) event.getSource();
 		
 		Member m = new Member();
 		
@@ -207,6 +203,9 @@ public class MemberService {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
+			
+			main.login.controller.Controller ctrl = loader.getController();
+			ctrl.setRoot(memberForm);
 			
 			s.setTitle("로그인");
 			s.show();

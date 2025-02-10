@@ -38,6 +38,7 @@ public class Controller {
 	
 	public void membershipProc() {
 		ctrl.setRoot(root);
+		ctrl.membershipProc();
 	}
 	
 	public void logout() {
